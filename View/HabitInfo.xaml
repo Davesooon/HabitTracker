@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vms="clr-namespace:HabitTracker.ViewModel"
+             x:Class="HabitTracker.View.HabitInfo"
+             Background="AliceBlue"
+             Title="Szczegóły">
+    <ContentPage.BindingContext>
+        <vms:HabitInfoViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                    Value="LightSkyBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+    <VerticalStackLayout>
+        <Label 
+            Text="Nazwa:"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontAttributes="Bold"/>
+        <Label HorizontalOptions="Center" HeightRequest="30" Text="{Binding Path=Model.Name,Mode=OneWay}" FontAutoScalingEnabled="True"/>
+        <Label 
+            Text="Tag:"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontAttributes="Bold"/>
+        <CollectionView ItemsSource="{Binding Path=Model.Tags,Mode=OneWay}" SelectionMode="Single" SelectedItem="{Binding Path=Model.SelectedTag,Mode=TwoWay}" SelectionChangedCommand="{Binding SelectedTagsChangedCommand}" >
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="5">
+                        <Label HorizontalTextAlignment="Start" HorizontalOptions="Center" Text="{Binding Mode=OneWay}" TextColor="Black" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Label 
+            Text="Data rozpoczęcia:"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontAttributes="Bold"/>
+        <DatePicker HorizontalOptions="Center" Date="{Binding Path=Model.SelectedDate,Mode=TwoWay}" />
+        <Button Margin="0,15,0,0" WidthRequest="150" HeightRequest="40" Text="Zapisz" Command="{Binding Path=SaveCommand}" />
+    </VerticalStackLayout>
+</ContentPage>

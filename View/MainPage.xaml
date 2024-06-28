@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vms="clr-namespace:HabitTracker.ViewModel"
+             x:Class="HabitTracker.View.MainPage"
+             Background="AliceBlue"
+             Title="HabitTracker">
+    <ContentPage.BindingContext>
+        <vms:MainViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="LightSkyBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Start" WidthRequest="120" HeightRequest="40" Text="Dodaj" Command="{Binding AddHabitCommand}" />
+        <CollectionView Grid.Row="0" Grid.Column="0" WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Start" ItemsSource="{Binding Path=Model.Habits,Mode=OneWay}" SelectionMode="Single" SelectedItem="{Binding Path=Model.SelectedHabit,Mode=TwoWay}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label HorizontalOptions="Start" Grid.Row="0" WidthRequest="200" Text="{Binding Name}" TextColor="Black" FontAttributes="Bold" FontSize="Body" FontAutoScalingEnabled="True" />
+                        <Border Stroke="LightGreen"
+                                StrokeThickness="4"
+                                StrokeShape="RoundRectangle 40,40,40,40"
+                                HeightRequest="22"
+                                WidthRequest="70"
+                                HorizontalOptions="Start"
+                                Margin="0,25,0,0"
+                                Background="LightGreen">
+                            <Label VerticalOptions="Start" Margin="5,0,0,0" WidthRequest="50" HeightRequest="20" Text="{Binding Tag}" TextColor="Black" FontSize="Micro" FontAttributes="Bold" />
+                        </Border>
+
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Start" WidthRequest="120" HeightRequest="40" Margin="0,50,0,0" BackgroundColor="Red" Text="Usuń" Command="{Binding RemoveHabitCommand}" />
+        <Button Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Start" WidthRequest="120" HeightRequest="40" Margin="0,100,0,0" Text="Zarządzaj" Command="{Binding OpenDetailsCommand}" />
+    </Grid>
+
+</ContentPage>
